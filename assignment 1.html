@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Budget Tracker</title>
+    
+</head>
+<body>
+    <header>
+        <h1>Personal Budget Tracker</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#add-expense">Add Expense</a></li>
+                <li><a href="#view-budget">View Budget</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="introduction">
+        <h2>Introduction</h2>
+        <p>This personal budget tracker helps you manage your monthly expenses by allowing you to input your income and expenses and categorize them for easier tracking.</p>
+    </section>
+
+    <section id="add-expense">
+        <h2>Add Income/Expense</h2>
+        <form>
+            <label for="income">Income:</label>
+            <input type="number" id="income" name="income" required>
+            <br>
+            <label for="expense">Expense:</label>
+            <input type="number" id="expense" name="expense" required>
+            <br>
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="food">Food</option>
+                <option value="transportation">Transportation</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="other">Other</option>
+            </select>
+            <br>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <section id="view-budget">
+        <h2>Budget Summary</h2>
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                </tr>
+                <tr>
+                    <td>Food</td>
+                    <td>$200</td>
+                    <td>Jan</td>
+                    <td>Groceries</td>
+                </tr>
+                <tr>
+                    <td>Transportation</td>
+                    <td>$100</td>
+                    <td>Jan</td>
+                    <td>Monthly</td> 
+                </tr>
+                <tr>
+                    <td>Savings</td>
+                    <td>$500</td>
+                    <td>Jan</td>
+                    <td>Emergency</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Personal Budget Tracker. Version 1.0</p>
+        <a href="#privacy-policy">Privacy Policy</a> | <a href="#terms-of-use">Terms of Use</a>
+    </footer>
+</body>
+</html>
