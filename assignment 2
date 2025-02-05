@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brewed Awakening</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #3e3e3e;
+    }
+
+    header {
+      background-image: url('https://via.placeholder.com/1200x600?text=Coffee+Shop+Background');
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      position: relative;
+      color: white;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: SaddleBrown;
+    }
+
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    nav a {
+      color: Beige;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 1.2rem;
+    }
+
+    nav a:hover {
+      color: SaddleBrown;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      padding: 10px 20px;
+      background-color: SaddleBrown;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .cta-btn:hover {
+      background-color: Peru;
+    }
+
+    .menu-section {
+      padding: 40px 20px;
+      background-color: white;
+    }
+
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .menu-item {
+      background-color: LightBeige;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .menu-item .details {
+      padding: 20px;
+    }
+
+    .menu-item h3 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: #3e3e3e;
+    }
+
+    .menu-item p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: DimGray;
+    }
+
+    .menu-item .price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: SaddleBrown;
+    }
+
+    .about-section {
+      padding: 40px 20px;
+      background-color: Moccasin;
+    }
+
+    .about-section h2 {
+      font-size: 2rem;
+      color: #3e3e3e;
+    }
+
+    .about-section p {
+      font-size: 1.2rem;
+      color: DimGray;
+    }
+
+    .contact-section {
+      padding: 40px 20px;
+      background-color: white;
+    }
+
+    .contact-section h2 {
+      font-size: 2rem;
+      color: #3e3e3e;
+      margin-bottom: 20px;
+    }
+
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .contact-form button {
+      padding: 10px 20px;
+      background-color: SaddleBrown;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .contact-form button:hover {
+      background-color: Peru;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: SaddleBrown;
+      color: white;
+    }
+
+    footer p {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: static;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      .menu-container {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cta-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .cta-btn {
+        width: 100%;
+      }
+
+      .menu-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Brewed Awakening</div>
+    <nav>
+      <a href="#menu">Menu</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="hero">
+      <div>
+        <h1>Welcome to Brewed Awakening</h1>
+        <a href="#menu" class="cta-btn">View Menu</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="menu" class="menu-section">
+    <h2>Our Menu</h2>
+    <div class="menu-container">
+      <div class="menu-item">
+        <img src= https://www.thespruceeats.com/thmb/HJrjMfXdLGHbgMhnM0fMkDx9XPQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/what-is-espresso-765702-hero-03_cropped-ffbc0c7cf45a46ff846843040c8f370c.jpg alt="Espresso">
+        <div class="details">
+          <h3>Espresso</h3>
+          <p>A strong, black coffee made by forcing steam through ground coffee beans.</p>
+          <p class="price">$3.00</p>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src=https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg alt="Latte">
+        <div class="details">
+          <h3>Latte</h3>
+          <p>A coffee drink made with espresso and steamed milk, topped with foam.</p>
+          <p class="price">$4.50</p>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src= https://t4.ftcdn.net/jpg/01/94/82/87/360_F_194828703_vuNjz8Otb66VfI4rQyg9tBUPuGAugsUR.jpg alt="Cappuccino">
+        <div class="details">
+          <h3>Cappuccino</h3>
+          <p>A coffee drink made with espresso, hot milk, and steamed milk foam.</p>
+          <p class="price">$4.00</p>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src= https://media.istockphoto.com/id/1397193477/photo/club-sandwich-made-with-bacon-ham-turkey-cheese-lettuce-and-tomato.jpg?s=612x612&w=0&k=20&c=fjNyxTEA0L88bqENs8_SKMnfAOyWlNPGxLIxz9nsSss= alt="Breakfast Sandwich">
+        <div class="details">
+          <h3>Breakfast Sandwich</h3>
+          <p>Egg, cheese, and bacon served on a fresh, toasted bun.</p>
+          <p class="price">$5.50</p>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src= https://media.istockphoto.com/id/161170090/photo/pancakes-with-berries-and-maple-syrup.jpg?s=612x612&w=0&k=20&c=8EctScsN7q5UmxeXPNBnYN1eFmJmgmp2bE0OIq_czwM= alt="Pancakes">
+        <div class="details">
+          <h3>Pancakes</h3>
+          <p>Fluffy pancakes served with syrup and butter.</p>
+          <p class="price">$6.00</p>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src= https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReXqRrEbcPNx_oGNGd2813LPRDduR3cjKa_Q&s alt="Croissant">
+        <div class="details">
+          <h3>Croissant</h3>
+          <p>Buttery, flaky pastry perfect for breakfast or a light snack.</p>
+          <p class="price">$2.50</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-section">
+    <h2>About Us</h2>
+    <p>Brewed Awakening is a cozy coffee shop dedicated to serving high-quality coffee and delicious breakfast options. Our mission is to provide a warm and welcoming environment where everyone can enjoy a cup of freshly brewed coffee and a tasty meal.</p>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <form class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Brewed Awakening. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
