@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Innomatics - Online Courses and Internships</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body 
+    {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: LightGray; 
+    }
+
+    header 
+    {
+      background-color: CharcoalGray; 
+      padding: 10px 0;
+    }
+
+    nav 
+    {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo img 
+    {
+      height: 50px;
+    }
+
+    .nav-links 
+    {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li 
+    {
+      margin: 0 15px;
+    }
+
+    .nav-links a 
+    {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    #hero {
+      background-size: cover;
+      text-align: center;
+      padding: 50px 20px;
+      color: white;
+      background-color: Black; 
+      background-position: center;
+    }
+
+    #hero h1 {
+      font-size: 3rem;
+      color: Goldenrod; 
+      margin-bottom: 20px;
+    }
+
+    #hero p {
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      background-color: Goldenrod; 
+      padding: 15px 30px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+    }
+
+    #courses {
+      padding: 60px 20px;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      color: gray;
+    }
+
+    #courses h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .course-card {
+      background-color: rgb(151, 13, 13);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .course-card:hover{
+      transform: translateY(-10px);
+    }
+
+    .course-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .course-card h3 {
+      margin: 15px 0;
+      color: black;
+    }
+
+    .course-card a {
+      color: Goldenrod; 
+      text-decoration: none;
+    }
+
+    #testimonials {
+      padding: 60px 20px;
+      background-color: white;
+      text-align: center;
+    }
+
+    .testimonial-grid {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .testimonial-card {
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .testimonial-card img {
+      width: 100%;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    #blog {
+      padding: 60px 20px;
+      background-size: cover;
+      background-position: center;
+      color: green;
+      text-align: center;
+    }
+
+    .blog-posts {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .blog-card {
+      width: 300px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .blog-card h3 
+    {
+      margin: 15px 0;
+      color: black;
+    }
+
+    .blog-card a 
+    {
+      color: Goldenrod; 
+      text-decoration: none;
+    }
+
+    footer {
+      background-color: CharcoalGray; 
+      color: black;
+      text-align: center;
+      padding: 20px 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    footer a {
+      color: black;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">
+        <img src= https://innomatics.in/wp-content/uploads/2023/01/innomatics-footer-logo.png  alt="Innomatics Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Courses</a></li>
+        <li><a href="#">IT Scholars Program</a></li>
+        <li><a href="#">Internship</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Events</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="hero">
+    <h1>Unlock Your Potential with Innomatics</h1>
+    <p>Join our diverse courses and internships to jumpstart your career in tech.</p>
+    <a href="#courses" class="cta-btn">Explore Courses</a>
+  </section>
+
+  <section id="courses">
+    <h2>Our Courses</h2>
+    <div class="course-grid">
+      <div class="course-card">
+        <img src= https://cdn.prod.website-files.com/63ccf2f0ea97be12ead278ed/644a18b637053fa3709c5ba2_what-is-data-science.jpg alt="Data Science Course">
+        <h3>Data Science</h3>
+        <p>Start your journey with Data Science and analytics with hands-on learning.</p>
+        <a href="#">Read More</a>
+      </div>
+      <div class="course-card">
+        <img src= https://www.jellyfishtechnologies.com/wp-content/uploads/2021/10/Artificial-Intelligence-versus-Machine-Learning.png alt ="AI & Machine Learning Course">
+        <h3>AI & Machine Learning</h3>
+        <p>Dive into the world of Artificial Intelligence and build innovative applications.</p>
+        <a href="#">Read More</a>
+      </div>
+      <div class="course-card">
+        <img src= https://www.mindinventory.com/blog/wp-content/uploads/2022/10/full-stack1200.png alt="Full Stack Development">
+        <h3>Full Stack Development</h3>
+        <p>Become a full stack developer, mastering both frontend and backend technologies.</p>
+        <a href="#">Read More</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>"Innomatics gave me the skills to excel in Data Science. Highly recommend!"</p>
+        <h4>John Doe</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>"The courses are fantastic and the instructors are great!"</p>
+        <h4>Jane Smith</h4>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog">
+    <h2>Latest Blog Posts</h2>
+    <div class="blog-posts">
+      <div class="blog-card">
+        <img src= https://www.data-science-blog.com/wp-content/uploads/2016/09/data-science-blog-logo.png  alt="Data Science Blog">
+        <h3>Tips for a Successful Career in Data Science</h3>
+        <p>Learn how to navigate the field of Data Science and become a top professional.</p>
+        <a href="#">Read More</a>
+      </div>
+      <div class="blog-card">
+        <img src=  https://sushantuniversity.edu.in/blog/wp-content/uploads/2022/05/aiml001.jpg  alt="AI Blog">
+        <h3>The Future of AI and Machine Learning</h3>
+        <p>Understand the trends and technologies shaping the future of AI.</p>
+        <a href="#">Read More</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Innomatics | All Rights Reserved</p>
+    <p>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+    </p>
+  </footer>
+
+</body>
+</html>
