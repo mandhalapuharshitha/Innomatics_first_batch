@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Online Shopping Discount & Free Shipping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: Navy;
+        }
+        container {
+            background-color: LightBlue;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        container h1 {
+            color: SteelBlue;
+        }
+        form {
+            background-color: White;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form label {
+            color: Teal;
+        }
+        form input {
+            border: 1px solid SkyBlue;
+        }
+        modal-content {
+            background-color: White;
+        }
+        modal-header {
+            background-color: LightBlue;
+            border-bottom: 1px solid SkyBlue;
+        }
+        modal-footer {
+            background-color: LightBlue;
+            border-top: 1px solid SkyBlue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Online Shopping Discount & Free Shipping</h1>
+        <form>
+            <div class="mb-3">
+                <label for="orderAmount" class="form-label">Order Amount:</label>
+                <input type="number" class="form-control" id="orderAmount" aria-describedby="orderAmountHelp">
+                <div id="orderAmountHelp" class="form-text">Enter the order amount to calculate the final payable amount.</div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="calculateFinalAmount()">Calculate Final Amount</button>
+        </form>
+        <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultModalLabel">Result</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="result"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+        function calculateFinalAmount()
+         {
+            let orderAmount = parseFloat(document.getElementById("orderAmount").value);
+            let discount = 0;
+            let shippingCharges = 0;
+
+            if (orderAmount > 1000) 
+            {
+                discount = orderAmount * 0.2;
+            } else if (orderAmount >= 500)
+             {
+                discount = orderAmount * 0.1;
+            }
+
+            if (orderAmount > 50) 
+            {
+                shippingCharges = 0;
+            } else {
+                shippingCharges = 10;
+            }
+
+            let finalAmount = orderAmount - discount + shippingCharges;
+
+            document.getElementById("result").innerHTML = "Final Payable Amount: $" + finalAmount.toFixed(2);
+            var myModal = new bootstrap.Modal(document.getElementById('resultModal'), {
+                keyboard: false
+            });
+            myModal.show();
+        }
+    </script>
+</body>
+</html>

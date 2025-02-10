@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Withdrawal System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <style>
+        body 
+        {
+            background-color: LightGray;
+        }
+        card 
+        {
+            background-color: MintCream;
+        }
+        btn-primary 
+        {
+            background-color: DodgerBlue;
+        }
+        label, h2
+         {
+            color: MidnightBlue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>ATM Withdrawal System</h2>
+                        <form id="withdrawal-form">
+                            <div class="form-group">
+                                <label for="balance">Balance:</label>
+                                <input type="number" id="balance" value="1000" readonly class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Withdrawal Amount:</label>
+                                <input type="number" id="amount" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="pin">PIN:</label>
+                                <input type="password" id="pin" value="1234" readonly class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="entered-pin">Enter PIN:</label>
+                                <input type="password" id="entered-pin" required class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Withdraw</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="result-modal" tabindex="-1" role="dialog" aria-labelledby="result-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="result-modal-label">Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="result"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        class ATM 
+        {
+            constructor(balance, pin) 
+            {
+                this.balance = balance;
+                this.pin = pin;
+            }
+
+            withdraw(amount, enteredPin)
+             {
+                if (enteredPin !== this.pin)
+                 {
+                    return "Incorrect PIN";
+                }
+                if (amount > this.balance)
+                 {
+                    return "Insufficient Funds";
+                }
+                if (amount % 100 !== 0)
+                 {
+                    return "Enter amount in multiples of 100";
+                }
+                this.balance -= amount;
+                return `Withdrawal successful. New balance: ${this.balance}`;
+            }
+        }
+
+        $(document).ready(function()
+         {
+            const atm = new ATM(1000, "1234");
+            $("#withdrawal-form").submit(function(event) 
+            {
+                event.preventDefault();
+                const amount = parseFloat($("#amount").val());
+                const enteredPin = $("#entered-pin").val();
+                const result = atm.withdraw(amount, enteredPin);
+                $("#balance").val(atm.balance);
+                $("#result").text(result);
+                $("#result-modal").modal("show");
+            });
+        });
+    </script>
+</body>
+</html>

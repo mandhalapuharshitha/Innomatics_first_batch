@@ -1,0 +1,120 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Student Grading System</title>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #87ceeb, #6495ed);
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid gainsboro;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: green;
+            border-color: green;
+        }
+        .modal-header {
+            background-color: green;
+            color: white;
+        }
+        .A {
+            background-color: green;
+            color: white;
+        }
+        .B {
+            background-color: blue;
+            color: white;
+        }
+        .C {
+            background-color: orange;
+            color: white;
+        }
+        .D {
+            background-color: darkorange;
+            color: white;
+        }
+        .F {
+            background-color: red;
+            color: white;
+        }
+        #grade {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 pt-5">
+        <h1 style="color: green;">Student Grading System</h1>
+        <form>
+            <div class="form-group">
+                <label for="marks" style="color: blue;">Marks:</label>
+                <input type="number" id="marks" class="form-control" value="0">
+            </div>
+            <div class="form-group">
+                <label for="attendance" style="color: blue;">Attendance (%):</label>
+                <input type="number" id="attendance" class="form-control" value="0">
+            </div>
+            <button type="button" onclick="calculateGrade()" class="btn btn-primary">Calculate Grade</button>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modal-header">
+                    <h5 class="modal-title" id="gradeModalLabel" style="color: white;">Your Grade</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body" style="background-color: #f0f0f0;">
+                    <p id="grade"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function calculateGrade()
+         {
+            let marks = parseInt(document.getElementById("marks").value);
+            let attendance = parseInt(document.getElementById("attendance").value);
+            if (attendance > 90)
+            {
+                marks += 5;
+            }
+            let grade;
+            if (marks >= 90) 
+            {
+                grade = "A";
+            } else if (marks >= 80)
+             {
+                grade = "B";
+            } else if (marks >= 70) 
+            {
+                grade = "C";
+            } else if (marks >= 60) 
+            {
+                grade = "D";
+            } else 
+            {
+                grade = "F";
+            }
+            let modalBody = document.getElementById("modal-body");
+            let modalHeader = document.getElementById("modal-header");
+            let gradeElement = document.getElementById("grade");
+            gradeElement.innerHTML = "Your final grade is: " + grade;
+            modalHeader.className = "modal-header " + grade;
+            $('#gradeModal').modal('show');
+        }
+    </script>
+</body>
+</html>

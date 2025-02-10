@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Fitness Membership Plan</title>
+    <style>
+        body {
+            background-color: LightGray;
+        }
+        container 
+        {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: White;
+            border: 1px solid Gainsboro;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        modal-content 
+        {
+            background-color: LightBlue;
+        }
+        modal-header 
+        {
+            background-color: CornflowerBlue;
+            color: White;
+        }
+        modal-footer 
+        {
+            background-color: DimGray;
+        }
+        btn-primary 
+        {
+            background-color: Crimson;
+            border-color: Crimson;
+        }
+        btn-primary:hover 
+        {
+            background-color: DarkRed;
+            border-color: DarkRed;
+        }
+        result-text 
+        {
+            font-size: 24px;
+            font-weight: bold;
+            color: Teal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color: LightSalmon;">Fitness Membership Plan</h2>
+        <p id="result" class="result-text"></p>
+        <script>
+            function choosePlan(wantsTrainer, wantsDietPlan) 
+            {
+                if (wantsDietPlan)
+                 {
+                    return "VIP ($80/month)";
+                } else if (wantsTrainer) 
+                {
+                    return "Premium ($50/month)";
+                } else {
+                    return "Basic ($20/month)";
+                }
+            }
+
+            let wantsTrainer = true;
+            let wantsDietPlan = false;
+
+            let result = choosePlan(wantsTrainer, wantsDietPlan);
+            document.getElementById("result").innerHTML = "Based on your preferences, we recommend the " + result;
+
+            
+            let modal = document.createElement("div");
+            modal.innerHTML = `
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Choose Your Plan</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="trainer_checkbox" checked>
+                                <label class="form-check-label" for="trainer_checkbox">Personal Trainer</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="diet_checkbox">
+                                <label class="form-check-label" for="diet_checkbox">Diet Plan</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="updatePlan()">Update Plan</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            modal.style.display = "none";
+            document.body.appendChild(modal);
+
+            
+            setTimeout(() => {
+                modal.style.display = "block";
+            }, 1000);
+
+            function updatePlan()
+             {
+                wantsTrainer = document.getElementById("trainer_checkbox").checked;
+                wantsDietPlan = document.getElementById("diet_checkbox").checked;
+                result = choosePlan(wantsTrainer, wantsDietPlan);
+                document.getElementById("result").innerHTML = "Based on your preferences, we recommend the " + result;
+                modal.style.display = "none";
+            }
+        </script>
+    </div>
+</body>
+</html>

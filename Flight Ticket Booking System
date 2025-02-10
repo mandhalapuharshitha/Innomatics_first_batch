@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Ticket Booking System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            background-color: lightgray;
+        }
+        container
+         {
+            width: 50%;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid darkgray;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        header
+         {
+            background-color: teal;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid darkgray;
+        }
+        btn-primary 
+        {
+            background-color: limegreen;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        btn-primary:hover 
+        {
+            background-color: forestgreen;
+        }
+        #fare {
+            font-size: 24px;
+            font-weight: bold;
+            color: dimgray;
+        }
+        form-group label 
+        {
+            color: dimgray;
+        }
+        form-control
+         {
+            border: 1px solid darkgray;
+        }
+        form-control:focus 
+        {
+            border-color: limegreen;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        checkbox 
+        {
+            margin: 20px 0;
+        }
+        checkbox label
+         {
+            color: dimgray;
+        }
+        #modal
+         {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        modal-content 
+        {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid darkgray;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2><i class="fa fa-plane" style="color: white;"></i> Flight Ticket Booking System</h2>
+        </div>
+        <form>
+            <div class="form-group">
+                <label for="classType">Class Type:</label>
+                <select id="classType" class="form-control">
+                    <option value="Economy">Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First">First</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="luggageWeight">Luggage Weight (kg):</label>
+                <input type="number" id="luggageWeight" class="form-control" value="20">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="isStudent"> Student</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="isSenior"> Senior</label>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="calculateFare()">Calculate Fare</button>
+        </form>
+    </div>
+    <div id="modal">
+        <div class="modal-content">
+            <h2>Final Fare</h2>
+            <p id="modalFare" style="font-size: 24px; font-weight: bold; color: dimgray;"></p>
+            <button type="button" class="btn btn-primary" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateFare()
+         {
+            const classType = document.getElementById('classType').value;
+            const luggageWeight = parseInt(document.getElementById('luggageWeight').value);
+            const isStudent = document.getElementById('isStudent').checked;
+            const isSenior = document.getElementById('isSenior').checked;
+
+            const baseFare = 300;
+            let additionalCharges = 0;
+            let discount = 0;
+
+            if (classType === 'Business')
+             {
+                additionalCharges += 200;
+            } else if (classType === 'First') 
+            {
+                additionalCharges += 500;
+            }
+
+            if (luggageWeight > 20) {
+                additionalCharges += Math.ceil((luggageWeight - 20) / 10) * 50;
+            }
+
+            if (isStudent) 
+            {
+                discount = 0.15;
+            } else if (isSenior) 
+            {
+                discount = 0.10;
+            }
+
+            const fare = (baseFare + additionalCharges) * (1 - discount);
+            document.getElementById('modalFare').innerText = `The final fare is: $${fare.toFixed(2)}`;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal()
+         {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
