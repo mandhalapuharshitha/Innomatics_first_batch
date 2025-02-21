@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Game</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: LightGoldenrod;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            border: 1px solid LightCoral;
+            border-radius: 10px;
+            background-color: PastelPink;
+            display: inline-block;
+            margin: 10px;
+            position: relative;
+            transition: background-color 0.5s;
+        }
+        .card.flipped {
+            background-color: SkyBlue;
+        }
+        .card.matched {
+            background-color: LimeGreen;
+        }
+        .scoreboard {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: BlueGreen;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: Orange;
+        }
+        .jumbo {
+            background-color: LightGray;
+            padding: 20px;
+            border: 1px solid LightGray;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #start-fruits, #start-emojis, #start-animals, #start-planets, #start-flags {
+            background-color: Teal;
+            color: White;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #start-fruits:hover, #start-emojis:hover, #start-animals:hover, #start-planets:hover, #start-flags:hover {
+            background-color: ForestGreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="container jumbo">
+        <h1 class="display-4" style="color: Green;">Memory Match Game</h1>
+        <button class="btn" id="start-fruits">Fruits</button>
+        <button class="btn" id="start-emojis">Emojis</button>
+        <button class="btn" id="start-animals">Animals</button>
+        <button class="btn" id="start-planets">Planets</button>
+        <button class="btn" id="start-flags">Flags of Countries</button>
+        <div id="game-container" style="display: none;">
+            <div class="scoreboard" id="score">Score: 0</div>
+            <div class="timer" id="time">Time: 60</div>
+            <div id="cards" class="d-flex flex-wrap justify-content-around"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        let categories = {
+            fruits: [
+                { name: "Apple", value: "apple" },
+                { name: "Banana", value: "banana" },
+                { name: "Cherry", value: "cherry" },
+                { name: "Date", value: "date" },
+                { name: "Elderberry", value: "elderberry" },
+                { name: "Fig", value: "fig" },
+                { name: "Grape", value: "grape" },
+                { name: "Honeydew", value: "honeydew" }
+            ],
+            emojis: [
+                { name: "Smiling Face", value: "😊" },
+                { name: "OK Hand Sign", value: "👍" },
+                { name: "Rocket Ship", value: "🚀" },
+                { name: "Party Popper", value: "🎉" },
+                { name: "Princess", value: "👸" },
+                { name: "Robot", value: "🤖" },
+                { name: "Star", value: "🌟" },
+                { name: "Computer", value: "💻" }
+            ],
+            animals: [
+                { name: "Cat", value: "cat" },
+                { name: "Dog", value: "dog" },
+                { name: "Bird", value: "bird" },
+                { name: "Fish", value: "fish" },
+                { name: "Horse", value: "horse" },
+                { name: "Cow", value: "cow" },
+                { name: "Pig", value: "pig" },
+                { name: "Sheep", value: "sheep" }
+            ],
+            planets: [
+                { name: "Mercury", value: "mercury" },
+                { name: "Venus", value: "venus" },
+                { name: "Earth", value: "earth" },
+                { name: "Mars", value: "mars" },
+                { name: "Jupiter", value: "jupiter" },
+                { name: "Saturn", value: "saturn" },
+                { name: "Uranus", value: "uranus" },
+                { name: "Neptune", value: "neptune" }
+            ],
+            flags: [
+                { name: "USA", value: "usa" },
+                { name: "Canada", value: "canada" },
+                { name: "Mexico", value: "mexico" },
+                { name: "Brazil", value: "brazil" },
+                { name: "Argentina", value: "argentina" },
+                { name: "Chile", value: "chile" },
+                { name: "Peru", value: "peru" },
+                { name: "Colombia", value: "colombia" }
+            ]
+        };
+
+        let score = 0;
+        let time = 60;
+        let flippedCards = [];
+        let matchedCards = [];
+        let currentCategory = "";
+        let interval;
+
+        document.getElementById("start-fruits").addEventListener("click", startGame);
+        document.getElementById("start-emojis").addEventListener("click", startGame);
+        document.getElementById("start-animals").addEventListener("click", startGame);
+        document.getElementById("start-planets").addEventListener("click", startGame);
+        document.getElementById("start-flags").addEventListener("click", startGame);
+
+        function startGame(event) {
+            currentCategory = event.target.id.replace("start-", "");
+            document.getElementById("game-container").style.display = "block";
+            score = 0;
+            time = 60;
+            flippedCards = [];
+            matchedCards = [];
+            let cards = [];
+            for (let i = 0; i < categories[currentCategory].length; i++) {
+                cards.push({ name: categories[currentCategory][i].name, value: categories[currentCategory][i].value, flipped: false, matched: false });
+                cards.push({ name: categories[currentCategory][i].name, value: categories[currentCategory][i].value, flipped: false, matched: false });
+            }
+            cards.sort(() => Math.random() - 0.5);
+            let cardsHtml = "";
+            for (let i = 0; i < cards.length; i++) 
+            {
+                cardsHtml += `<div class="card" data-name="${cards[i].name}" data-value="${cards[i].value}" data-index="${i}"></div>`;
+            }
+            document.getElementById("cards").innerHTML = cardsHtml;
+            interval = setInterval(updateTime, 1000);
+            document.querySelectorAll(".card").forEach(card => {
+                card.addEventListener("click", flipCard);
+            });
+        }
+
+        function flipCard(event) 
+        {
+            let card = event.target;
+            let cardName = card.getAttribute("data-name");
+            let cardValue = card.getAttribute("data-value");
+            let cardIndex = card.getAttribute("data-index");
+            if (!flippedCards.includes(cardIndex)) 
+            {
+                flippedCards.push(cardIndex);
+                card.classList.add("flipped");
+                if(currentCategory == "emojis") 
+                {
+                    card.innerHTML = cardValue;
+                } else {
+                    card.innerHTML = cardName;
+                }
+                if (flippedCards.length === 2) 
+                {
+                    setTimeout(checkMatch, 1000);
+                }
+            }
+        }
+
+        function checkMatch() 
+        {
+            let card1 = flippedCards[0];
+            let card2 = flippedCards[1];
+            let card1Value = document.querySelectorAll(".card")[card1].getAttribute("data-value");
+            let card2Value = document.querySelectorAll(".card")[card2].getAttribute("data-value");
+            if (card1Value === card2Value) 
+            {
+                matchedCards.push(card1, card2);
+                score++;
+                document.getElementById("score").innerHTML = `Score: ${score}`;
+                document.querySelectorAll(".card")[card1].classList.add("matched");
+                document.querySelectorAll(".card")[card2].classList.add("matched");
+                if (matchedCards.length === categories[currentCategory].length * 2) 
+                {
+                    clearInterval(interval);
+                    document.getElementById("game-container").innerHTML = `Congratulations! You won with a score of ${score}.`;
+                }
+            } else 
+            {
+                document.querySelectorAll(".card")[card1].classList.remove("flipped");
+                document.querySelectorAll(".card")[card2].classList.remove("flipped");
+                document.querySelectorAll(".card")[card1].innerHTML = "";
+                document.querySelectorAll(".card")[card2].innerHTML = "";
+            }
+            flippedCards = [];
+        }
+
+        function updateTime() 
+        {
+            time--;
+            document.getElementById("time").innerHTML = `Time: ${time}`;
+            if (time === 0) 
+            {
+                clearInterval(interval);
+                document.getElementById("game-container").innerHTML = `Game Over! You lost with a score of ${score}.`;
+            }
+        }
+    </script>
+</body>
+</html>
