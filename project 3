@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: lavender;
+            color: darkslategray;
+            line-height: 1.6;
+        }
+
+        nav {
+            background-color: darkslategray;
+            padding: 10px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-container .logo h2 {
+            color: white;
+            font-size: 24px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #hero {
+            background-color: mediumslateblue;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        #hero .hero-content h1 {
+            font-size: 50px;
+        }
+
+        #hero .hero-content h1 span {
+            color: gold;
+        }
+
+        #hero .btn {
+            background-color: gold;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #hero .btn:hover {
+            background-color: darkorange;
+        }
+
+        #about {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        #about .about-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #about .about-content .profile-pic {
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        #skills {
+            background-color: white;
+            padding: 50px 20px;
+        }
+
+        #skills .skills-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #skills .skill-card {
+            background-color: mediumslateblue;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 150px;
+            text-align: center;
+        }
+
+        #skills .skill-card h3 {
+            font-size: 20px;
+        }
+
+        #projects {
+            padding: 50px 20px;
+            background-color: lavender;
+        }
+
+        #projects .projects-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+        }
+
+        #projects .project-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+        }
+
+        #projects .project-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        #contact {
+            background-color: mediumslateblue;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        #contact .contact-form form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #contact .contact-form form input,
+        #contact .contact-form form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+            font-size: 16px;
+        }
+
+        #contact .contact-form form button {
+            background-color: gold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #contact .contact-form form button:hover {
+            background-color: darkorange;
+        }
+
+        footer {
+            background-color: darkslategray;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <h2>MyPortfolio</h2>
+            </div>
+            <ul>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Hello, I'm <span>Harshitha</span></h1>
+            <p> i am a Python Full Stack Developer Passionate about  seamless digital experiences.As a fresher,I excel in modern frontend technologies while growing my backend skils to transform ideas into impactful applications.</p>
+            <a href="#contact" class="btn">Get In Touch</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-title">
+            <h2>About Me</h2>
+        </div>
+        <div class="about-content">
+            <p>Hello! I'm a passionate  developer with experience in HTML, CSS, JavaScript, and more... with a  strong foundation in modern web technologies.Though i'm at the start of my career,I have already had the chance to collbrate in innovative projects, contributing fresh idea to build seamless user-centric application and My passion full-stack development shines through in the creativity and commitment I bring to every project,as i continuously strive to transform challenges into impactful digital ecperiences.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="section-title">
+            <h2>Skills</h2>
+        </div>
+        <div class="skills-list">
+            <div class="skill-card">
+                <h3>HTML</h3>
+            </div>
+            <div class="skill-card">
+                <h3>CSS</h3>
+            </div>
+            <div class="skill-card">
+                <h3>JavaScript</h3>
+            </div>
+            <div class="skill-card">
+                <h3>React</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="section-title">
+            <h2>My Projects</h2>
+        </div>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Project 1</h3>
+                <p>A web application built with React</p>
+            </div>
+            <div class="project-card">
+                <h3>Project 2</h3>
+                <p>Clone of Innomatics website</p>
+            </div>
+            <div class="project-card">
+                <h3>Project 3</h3>
+                <p>A mobile app using React Native</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-title">
+            <h2>Contact</h2>
+        </div>
+        <div class="contact-form">
+            <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 John Doe</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Portfolio Loaded");
+        });
+    </script>
+</body>
+
+</html>
