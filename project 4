@@ -1,0 +1,122 @@
+
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
+const Doctor = require('./models/Doctor');
+const Appointment = require('./models/Appointment');
+
+dotenv.config();
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB Connected'))
+.catch(err => console.log(err));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword, role });
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ error: 'User not found' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+app.post('/api/doctors', async (req, res) => {
+  try {
+    const { name, specialization, availableSlots } = req.body;
+    const doctor = new Doctor({ name, specialization, availableSlots });
+    await doctor.save();
+    res.status(201).json(doctor);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/doctors', async (req, res) => {
+  try {
+    const doctors = await Doctor.find();
+    res.json(doctors);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+app.post('/api/appointments', async (req, res) => {
+  try {
+    const { doctorId, patientId, date, time } = req.body;
+    const appointment = new Appointment({ doctorId, patientId, date, time });
+    await appointment.save();
+    res.status(201).json({ message: 'Appointment booked successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/appointments', async (req, res) => {
+  try {
+    const appointments = await Appointment.find().populate('doctorId patientId');
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
+  name: String,
+  email: String,
+  password: String,
+  role: { type: String, enum: ['patient', 'doctor', 'admin'], default: 'patient' }
+});
+const User = mongoose.model('User', userSchema);
+
+const doctorSchema = new Schema({
+  name: String,
+  specialization: String,
+  availableSlots: [String]
+});
+const Doctor = mongoose.model('Doctor', doctorSchema);
+
+const appointmentSchema = new Schema({
+  doctorId: { type: Schema.Types.ObjectId, ref: 'Doctor' },
+  patientId: { type: Schema.Types.ObjectId, ref: 'User' },
+  date: String,
+  time: String
+});
+const Appointment = mongoose.model('Appointment', appointmentSchema);
+
