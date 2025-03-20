@@ -1,122 +1,250 @@
-
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('./models/User');
-const Doctor = require('./models/Doctor');
-const Appointment = require('./models/Appointment');
-
-dotenv.config();
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-app.post('/api/auth/register', async (req, res) => {
-  try {
-    const { name, email, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, role });
-    await newUser.save();
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-app.post('/api/auth/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: 'User not found' });
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-
-app.post('/api/doctors', async (req, res) => {
-  try {
-    const { name, specialization, availableSlots } = req.body;
-    const doctor = new Doctor({ name, specialization, availableSlots });
-    await doctor.save();
-    res.status(201).json(doctor);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-app.get('/api/doctors', async (req, res) => {
-  try {
-    const doctors = await Doctor.find();
-    res.json(doctors);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-
-app.post('/api/appointments', async (req, res) => {
-  try {
-    const { doctorId, patientId, date, time } = req.body;
-    const appointment = new Appointment({ doctorId, patientId, date, time });
-    await appointment.save();
-    res.status(201).json({ message: 'Appointment booked successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-app.get('/api/appointments', async (req, res) => {
-  try {
-    const appointments = await Appointment.find().populate('doctorId patientId');
-    res.json(appointments);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-
-const { Schema } = mongoose;
-
-const userSchema = new Schema({
-  name: String,
-  email: String,
-  password: String,
-  role: { type: String, enum: ['patient', 'doctor', 'admin'], default: 'patient' }
-});
-const User = mongoose.model('User', userSchema);
-
-const doctorSchema = new Schema({
-  name: String,
-  specialization: String,
-  availableSlots: [String]
-});
-const Doctor = mongoose.model('Doctor', doctorSchema);
-
-const appointmentSchema = new Schema({
-  doctorId: { type: Schema.Types.ObjectId, ref: 'Doctor' },
-  patientId: { type: Schema.Types.ObjectId, ref: 'User' },
-  date: String,
-  time: String
-});
-const Appointment = mongoose.model('Appointment', appointmentSchema);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets Healthcare</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: DarkGrey;
+            padding: 1rem;
+        }
+        .navbar-brand {
+            color: White;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .hero {
+            background-image: linear-gradient(to bottom, DarkGrey, Grey);
+            background-size: 100% 300px;
+            background-position: 0% 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: White;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .services {
+            background-color: LightGrey;
+            padding: 2rem;
+        }
+        .service {
+            background-color: White;
+            padding: 1rem;
+            border: 1px solid LightGrey;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .about {
+            background-color: White;
+            padding: 2rem;
+        }
+        .contact {
+            background-color: LightGrey;
+            padding: 2rem;
+        }
+        .doctors {
+            background-color: White;
+            padding: 2rem;
+        }
+        .doctor {
+            background-color: White;
+            padding: 1rem;
+            border: 1px solid LightGrey;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            background-color: DarkGrey;
+            color: White;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Pets Healthcare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#doctors">Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Welcome to Pets Healthcare</h1>
+            <p>We provide the best healthcare services for your pets.</p>
+            <button class="btn btn-primary">Learn More</button>
+        </div>
+    </section>
+    <section class="services" id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="service">
+                        <h3>Vaccination</h3>
+                        <p>We provide vaccination services for your pets.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service">
+                        <h3>Dental Care</h3>
+                        <p>We provide dental care services for your pets.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service">
+                        <h3>Surgery</h3>
+                        <p>We provide surgery services for your pets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="doctors" id="doctors">
+        <div class="container">
+            <h2>Our Doctors</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="doctor">
+                        <h3>Dr. John Doe</h3>
+                        <p>Specialized in pet vaccination and dental care.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">Book Appointment</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="doctor">
+                        <h3>Dr. Jane Smith</h3>
+                        <p>Specialized in pet surgery and emergency care.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">Book Appointment</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="doctor">
+                        <h3>Dr. Bob Johnson</h3>
+                        <p>Specialized in pet nutrition and behavior.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about" id="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>We are a team of experienced veterinarians who are dedicated to providing the best healthcare services for your pets.</p>
+        </div>
+    </section>
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p>Contact us to learn more about our services or to schedule an appointment.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="col-md-6">
+                    <input type="email" class="form-control" placeholder="Email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea class="form-control" placeholder="Message"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary">Send Message</button>
+        </div>
+    </section>
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">Book Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="doctor" class="col-form-label">Select Doctor:</label>
+                            <select class="form-select" id="doctor">
+                                <option value="Dr. John Doe">Dr. John Doe</option>
+                                <option value="Dr. Jane Smith">Dr. Jane Smith</option>
+                                <option value="Dr. Bob Johnson">Dr. Bob Johnson</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="col-form-label">Select Date:</label>
+                            <input type="date" class="form-control" id="date">
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="col-form-label">Select Time:</label>
+                            <select class="form-select" id="time">
+                                <option value="9:00 AM">9:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:00 AM">11:00 AM</option>
+                                <option value="1:00 PM">1:00 PM</option>
+                                <option value="2:00 PM">2:00 PM</option>
+                                <option value="3:00 PM">3:00 PM</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2023 Pets Healthcare</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Add smooth scrolling to all links
+            $("a").on('click', function(event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+                    // Store hash
+                    var hash = this.hash;
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function(){
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+        });
+    </script>
+</body>
+</html>
 
